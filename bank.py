@@ -223,7 +223,31 @@ class Deposit:
         self.master.title("Deposit System")
         self.master.geometry('1350x750+0+0')
         self.frame = Frame(self.master)
-        self.frame.pack()     
+        self.frame.pack()   
+
+        self.Money = int
+        self.Password=StringVar
+        
+        self.LabelTitle = Label(self.frame,text="Deposit System",font=('arial',30,'bold'),bd=20)
+        self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
+        
+        self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
+        self.LoginFrame1.grid(row=1,column=0)
+        
+        self.lblWithdraw = Label(self.LoginFrame1,text="Enter the amount to be Deposited",font=('arial',30,'bold'),bd=22)
+        self.lblWithdraw.grid(row=0,column=0)
+        self.txtWithdraw = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
+        self.txtWithdraw.grid(row=0,column=1)
+        
+        self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword.grid(row=1,column=0)
+        self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
+        self.txtPassword.grid(row=1,column=1)
+        
+        self.lblPassword = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword.grid(row=2,column=0)
+        self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
+        self.txtPassword.grid(row=2,column=1)
         
         
         
@@ -240,7 +264,7 @@ class Withdraw:
         self.Money = int
         self.Password=StringVar
         
-        self.LabelTitle = Label(self.frame,text="Deposit System",font=('arial',30,'bold'),bd=20)
+        self.LabelTitle = Label(self.frame,text="Withdraw System",font=('arial',30,'bold'),bd=20)
         self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
         
         self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
