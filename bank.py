@@ -8,8 +8,110 @@ import time;
 
 def main():
     root = Tk()
-    app = Window1(root)
+    app = MainWindow(root)
     root.mainloop()
+    
+    
+class MainWindow:
+    def __init__(self,master):
+        self.master = master
+        self.master.title("Bank Management System")
+        self.master.geometry('1350x750+0+0')
+        self.frame = Frame(self.master)
+        self.frame.pack()
+        
+        self.LabelTitle = Label(self.frame,text="Bank Management System",font=('arial',50,'bold'),bd=20)
+        self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
+        
+        self.LoginFrame1 = Frame(self.frame,width=1010,height=300,bd=20,relief='ridge')
+        self.LoginFrame1.grid(row=1,column=0)
+        
+        
+        self.btnLogin = Button(self.LoginFrame1,text="Login",width=20,font=('arial',20,'bold'),command=self.Login_window)
+        self.btnLogin.grid(row=0,column=0)
+        
+        self.btnRegister = Button(self.LoginFrame1,text="Register",width=20,font=('arial',20,'bold'),command=self.Registration_window)
+        self.btnRegister.grid(row=0,column=1)
+        
+        self.btnschemes = Button(self.LoginFrame1,text="Schemes",width=20,font=('arial',20,'bold'),command=self.Schemes)
+        self.btnschemes.grid(row=1,column=0)
+        
+        self.btnbdetails = Button(self.LoginFrame1,text="Bank Details",width=20,font=('arial',20,'bold'),command=self.Bank_Details)
+        self.btnbdetails.grid(row=1,column=1)
+        
+        
+    def  Registration_window(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = Window2(self.newWindow)
+    
+    def Login_window(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = Window1(self.newWindow)
+        
+    def Schemes(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = SchemesClass(self.newWindow)
+        
+    def Bank_Details(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = BankDetailsClass(self.newWindow)
+        
+        
+class SchemesClass:
+    def __init__(self,master):
+        self.master = master
+        self.master.title("Rules")
+        self.master.geometry('1350x750+0+0')
+        self.frame = Frame(self.master)
+        self.frame.pack()
+        
+        self.LabelTitle = Label(self.frame,text="Schemes System",font=('arial',50,'bold'),bd=20)
+        self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
+        
+        self.LoginFrame1 = Frame(self.frame,width=1010,height=300,bd=20,relief='ridge')
+        self.LoginFrame1.grid(row=1,column=0)
+        
+        self.btnbdetails = Label(self.LoginFrame1,text="Deposit",width=20,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=0,column=0)
+        self.btnbdetails = Label(self.LoginFrame1,text="Withdrawal",width=20,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=1,column=0)
+        self.btnbdetails = Label(self.LoginFrame1,text="Checking Bank Balance",width=20,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=2,column=0)
+        self.btnbdetails = Label(self.LoginFrame1,text="Extra Schemes",width=20,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=3,column=0)
+        
+        
+class BankDetailsClass:
+    def __init__(self,master):
+        self.master = master
+        self.master.title("Bank Details")
+        self.master.geometry('1350x750+0+0')
+        self.frame = Frame(self.master)
+        self.frame.pack()
+        
+        self.LabelTitle = Label(self.frame,text="Bank Management System Made By :-",font=('arial',40,'bold'),bd=20)
+        self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
+        
+        self.LoginFrame1 = Frame(self.frame,width=1010,height=200,bd=20,relief='ridge')
+        self.LoginFrame1.grid(row=1,column=0)
+        
+        self.btnbdetails = Label(self.LoginFrame1,text="Saurav Joshi(1811019)",width=40,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=0,column=0)
+        self.btnbdetails = Label(self.LoginFrame1,text="Idrees Barnagarwala(1811004)",width=40,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=1,column=0)
+        self.btnbdetails = Label(self.LoginFrame1,text="Ronak Gala(1811012)",width=40,font=('arial',20,'bold'))
+        self.btnbdetails.grid(row=2,column=0)
+
+
+    
+class Window2:
+    def __init__(self,master):
+        self.master = master
+        self.master.title("Registration System")
+        self.master.geometry('1350x750+0+0')
+        self.frame = Frame(self.master)
+        self.frame.pack()
+        
 
     
 class Window1:
@@ -53,7 +155,7 @@ class Window1:
         self.btnReset = Button(self.LoginFrame2,text="Reset",width=20,font=('arial',20,'bold'),command=self.Reset)
         self.btnReset.grid(row=0,column=1)
         
-        self.btnExit = Button(self.LoginFrame2,text="Exit",width=20,font=('arial',20,'bold'),command=self.exit)
+        self.btnExit = Button(self.LoginFrame2,text="Exit",width=20,font=('arial',20,'bold'),command=self.exit1)
         self.btnExit.grid(row=0,column=2)
         
         
@@ -87,9 +189,9 @@ class Window1:
         self.Password.set("")
         self.txtUsername.focus() 
     
-    def exit(self):
+    def exit1(self):
         tkinter.messagebox.askyesno("Bank Management System","Confirm You Want to Exit")
-        if(self.exit > 0):
+        if(self.exit1 > 0):
             self.master.destroy()
             return 
     #=======================================================================
@@ -102,20 +204,13 @@ class Window1:
         self.newWindow = Toplevel(self.master)
         self.app = Window3(self.newWindow)
         
-class Window2:
-    def __init__(self,master):
-        self.master = master
-        self.master.title("Registration System")
-        self.master.geometry('1350x750+0+0')
-        self.frame = Frame(self.master)
-        self.frame.pack()
-        
+
         
         
 class Window3:
     def __init__(self,master):
         self.master = master
-        self.master.title("Login System")
+        self.master.title("Query System")
         self.master.geometry('1350x750+0+0')
         self.frame = Frame(self.master)
         self.frame.pack()       
