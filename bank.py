@@ -11,7 +11,7 @@ def main():
     app = MainWindow(root)
     root.mainloop()
     
-    
+#Main Screen    
 class MainWindow:
     def __init__(self,master):
         self.master = master
@@ -56,7 +56,7 @@ class MainWindow:
         self.newWindow = Toplevel(self.master)
         self.app = BankDetailsClass(self.newWindow)
         
-        
+#scheme Details     
 class SchemesClass:
     def __init__(self,master):
         self.master = master
@@ -80,7 +80,7 @@ class SchemesClass:
         self.btnbdetails = Label(self.LoginFrame1,text="Extra Schemes",width=20,font=('arial',20,'bold'))
         self.btnbdetails.grid(row=3,column=0)
         
-        
+#Project Owner Details        
 class BankDetailsClass:
     def __init__(self,master):
         self.master = master
@@ -103,7 +103,7 @@ class BankDetailsClass:
         self.btnbdetails.grid(row=2,column=0)
 
 
-    
+#Registration Window   
 class Window2:
     def __init__(self,master):
         self.master = master
@@ -113,7 +113,7 @@ class Window2:
         self.frame.pack()
         
 
-    
+#Login Window    
 class Window1:
     def __init__(self,master):
         self.master = master
@@ -216,7 +216,7 @@ class Window1:
         
 
         
-        
+#Deposit Window        
 class Deposit:
     def __init__(self,master):
         self.master = master
@@ -224,7 +224,8 @@ class Deposit:
         self.master.geometry('1350x750+0+0')
         self.frame = Frame(self.master)
         self.frame.pack()       
-        
+
+#Withdraw Window        
 class Withdraw:
     def __init__(self,master):
         self.master = master
@@ -233,6 +234,7 @@ class Withdraw:
         self.frame = Frame(self.master)
         self.frame.pack()    
 
+#Check Balance Window
 class Check_Bal:
     def __init__(self,master):
         self.master = master
