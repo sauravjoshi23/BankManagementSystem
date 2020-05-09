@@ -159,11 +159,14 @@ class Window1:
         self.btnExit.grid(row=0,column=2)
         
         
-        self.btnRegistration = Button(self.LoginFrame3,text="Registrations Form",width=20,font=('arial',20,'bold'),state=DISABLED,command=self.Registration_window)
-        self.btnRegistration.grid(row=0,column=0)
+        self.btnDeposit = Button(self.LoginFrame3,text="Deposit",width=20,font=('arial',20,'bold'),state=DISABLED,command=self.Deposit_Window)
+        self.btnDeposit.grid(row=0,column=0)
         
-        self.btnLogin = Button(self.LoginFrame3,text="Login Form",width=20,font=('arial',20,'bold'),state=DISABLED,command=self.Login_window)
-        self.btnLogin.grid(row=0,column=1)
+        self.btnWithdraw = Button(self.LoginFrame3,text="Withdraw",width=20,font=('arial',20,'bold'),state=DISABLED,command=self.Withdraw_Window)
+        self.btnWithdraw.grid(row=0,column=1)
+        
+        self.btncheckbal = Button(self.LoginFrame3,text="Chack Balance",width=20,font=('arial',20,'bold'),state=DISABLED,command=self.Check_Bal_Window)
+        self.btncheckbal.grid(row=0,column=2)
         
     #=======================================================================
     
@@ -172,19 +175,22 @@ class Window1:
         pas = (self.Password.get())
         
         if(user == str(1234) and (pas == str(1234))):
-            self.btnRegistration.config(state=NORMAL)
-            self.btnLogin.config(state=NORMAL)
+            self.btnDeposit.config(state=NORMAL)
+            self.btnWithdraw.config(state=NORMAL)
+            self.btncheckbal.config(state=NORMAL)
         else:
             tkinter.messagebox.askyesno("Bank Management System","Invalid Login Details!!")
-            self.btnRegistration.config(state=DISABLED)
-            self.btnLogin.config(state=DISABLED)
+            self.btnDeposit.config(state=DISABLED)
+            self.btnWithdraw.config(state=DISABLED)
+            self.btncheckbal.config(state=DISABLED)
             self.Username.set("")
             self.Password.set("")
             self.txtUsername.focus()
     
     def Reset(self):
-        self.btnRegistration.config(state=DISABLED)
-        self.btnLogin.config(state=DISABLED)
+        self.btnDeposit.config(state=DISABLED)
+        self.btnWithdraw.config(state=DISABLED)
+        self.btncheckbal.config(state=DISABLED)
         self.Username.set("")
         self.Password.set("")
         self.txtUsername.focus() 
@@ -196,25 +202,44 @@ class Window1:
             return 
     #=======================================================================
         
-    def  Registration_window(self):
+    def  Deposit_Window(self):
         self.newWindow = Toplevel(self.master)
-        self.app = Window2(self.newWindow)
+        self.app = Deposit(self.newWindow)
         
-    def Login_window(self):
+    def Withdraw_Window(self):
         self.newWindow = Toplevel(self.master)
-        self.app = Window3(self.newWindow)
+        self.app = Withdraw(self.newWindow)
+    
+    def Check_Bal_Window(self):
+        self.newWindow = Toplevel(self.master)
+        self.app = Check_Bal(self.newWindow)
         
 
         
         
-class Window3:
+class Deposit:
     def __init__(self,master):
         self.master = master
-        self.master.title("Query System")
+        self.master.title("Deposit System")
         self.master.geometry('1350x750+0+0')
         self.frame = Frame(self.master)
         self.frame.pack()       
+        
+class Withdraw:
+    def __init__(self,master):
+        self.master = master
+        self.master.title("Withdraw System")
+        self.master.geometry('1350x750+0+0')
+        self.frame = Frame(self.master)
+        self.frame.pack()    
 
+class Check_Bal:
+    def __init__(self,master):
+        self.master = master
+        self.master.title("Check Balance System")
+        self.master.geometry('1350x750+0+0')
+        self.frame = Frame(self.master)
+        self.frame.pack()    
 
 if __name__ == '__main__':
     main()
