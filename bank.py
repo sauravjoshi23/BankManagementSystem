@@ -112,6 +112,43 @@ class Window2:
         self.frame = Frame(self.master)
         self.frame.pack()
         
+        self.Account_No=StringVar()
+        self.Money=int()
+        self.UserName=StringVar()
+        self.address=StringVar()
+        self.Password=StringVar()
+        
+        self.LabelTitle = Label(self.frame,text="Registration System",font=('arial',30,'bold'),bd=20)
+        self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
+        
+        self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
+        self.LoginFrame1.grid(row=1,column=0)
+        
+        self.lblUserName = Label(self.LoginFrame1,text="Enter UserName",font=('arial',30,'bold'),bd=22)
+        self.lblUserName.grid(row=0,column=0)
+        self.txtUserName = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.UserName)
+        self.txtUserName.grid(row=0,column=1)
+        
+        self.lblAccount_No = Label(self.LoginFrame1,text="Enter Account No. : ",font=('arial',30,'bold'),bd=22)
+        self.lblAccount_No.grid(row=1,column=0)
+        self.txtAccount_No = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Account_No)
+        self.txtAccount_No.grid(row=1,column=1)
+        
+        self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword.grid(row=2,column=0)
+        self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
+        self.txtPassword.grid(row=2,column=1)
+        
+        self.lbladdress = Label(self.LoginFrame1,text="Enter Address : ",font=('arial',30,'bold'),bd=22)
+        self.lbladdress.grid(row=3,column=0)
+        self.txtaddress = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.address)
+        self.txtaddress.grid(row=3,column=1)
+        
+        self.lblMoney = Label(self.LoginFrame1,text="Enter Initial Amount : ",font=('arial',30,'bold'),bd=22)
+        self.lblMoney.grid(row=4,column=0)
+        self.txtMoney = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
+        self.txtMoney.grid(row=4,column=1)
+        
 
 #Login Window    
 class Window1:
@@ -122,7 +159,7 @@ class Window1:
         self.frame = Frame(self.master)
         self.frame.pack()
         
-        self.Username=StringVar()
+        self.Account_No=StringVar()
         self.Password=StringVar()
         
         self.LabelTitle = Label(self.frame,text="Bank Management System",font=('arial',50,'bold'),bd=20)
@@ -138,10 +175,10 @@ class Window1:
         self.LoginFrame3.grid(row=3,column=0)
         
         #====================================================================
-        self.lblUsername = Label(self.LoginFrame1,text="Username",font=('arial',30,'bold'),bd=22)
-        self.lblUsername.grid(row=0,column=0)
-        self.txtUsername = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Username)
-        self.txtUsername.grid(row=0,column=1)
+        self.lblAccount_No = Label(self.LoginFrame1,text="Account No.",font=('arial',30,'bold'),bd=22)
+        self.lblAccount_No.grid(row=0,column=0)
+        self.txtAccount_No = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Account_No)
+        self.txtAccount_No.grid(row=0,column=1)
         
         self.lblPassword = Label(self.LoginFrame1,text="Password",font=('arial',30,'bold'),bd=22)
         self.lblPassword.grid(row=1,column=0)
@@ -171,7 +208,7 @@ class Window1:
     #=======================================================================
     
     def Login_System(self):
-        user = (self.Username.get())
+        user = (self.Account_No.get())
         pas = (self.Password.get())
         
         if(user == str(1234) and (pas == str(1234))):
@@ -183,7 +220,7 @@ class Window1:
             self.btnDeposit.config(state=DISABLED)
             self.btnWithdraw.config(state=DISABLED)
             self.btncheckbal.config(state=DISABLED)
-            self.Username.set("")
+            self.Account_No.set("")
             self.Password.set("")
             self.txtUsername.focus()
     
@@ -191,7 +228,7 @@ class Window1:
         self.btnDeposit.config(state=DISABLED)
         self.btnWithdraw.config(state=DISABLED)
         self.btncheckbal.config(state=DISABLED)
-        self.Username.set("")
+        self.Account_No.set("")
         self.Password.set("")
         self.txtUsername.focus() 
     
@@ -234,20 +271,20 @@ class Deposit:
         self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
         self.LoginFrame1.grid(row=1,column=0)
         
-        self.lblWithdraw = Label(self.LoginFrame1,text="Enter the amount to be Deposited",font=('arial',30,'bold'),bd=22)
-        self.lblWithdraw.grid(row=0,column=0)
-        self.txtWithdraw = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
-        self.txtWithdraw.grid(row=0,column=1)
+        self.lblMoney = Label(self.LoginFrame1,text="Enter the amount to be Deposited",font=('arial',30,'bold'),bd=22)
+        self.lblMoney.grid(row=0,column=0)
+        self.txtMoney = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
+        self.txtMoney.grid(row=0,column=1)
         
         self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
         self.lblPassword.grid(row=1,column=0)
         self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
         self.txtPassword.grid(row=1,column=1)
         
-        self.lblPassword = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
-        self.lblPassword.grid(row=2,column=0)
-        self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
-        self.txtPassword.grid(row=2,column=1)
+        self.lblPassword1 = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword1.grid(row=2,column=0)
+        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
+        self.txtPassword1.grid(row=2,column=1)
         
         
         
@@ -270,20 +307,20 @@ class Withdraw:
         self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
         self.LoginFrame1.grid(row=1,column=0)
         
-        self.lblWithdraw = Label(self.LoginFrame1,text="Enter the amount to be Withdrawn",font=('arial',30,'bold'),bd=22)
-        self.lblWithdraw.grid(row=0,column=0)
-        self.txtWithdraw = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
-        self.txtWithdraw.grid(row=0,column=1)
+        self.lblMoney = Label(self.LoginFrame1,text="Enter the amount to be Withdrawn",font=('arial',30,'bold'),bd=22)
+        self.lblMoney.grid(row=0,column=0)
+        self.txtMoney = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
+        self.txtMoney.grid(row=0,column=1)
         
         self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
         self.lblPassword.grid(row=1,column=0)
         self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
         self.txtPassword.grid(row=1,column=1)
         
-        self.lblPassword = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
-        self.lblPassword.grid(row=2,column=0)
-        self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
-        self.txtPassword.grid(row=2,column=1)
+        self.lblPassword1 = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword1.grid(row=2,column=0)
+        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
+        self.txtPassword1.grid(row=2,column=1)
         
         
         
