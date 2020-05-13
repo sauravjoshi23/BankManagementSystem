@@ -4,6 +4,7 @@ from tkinter import ttk
 import random
 import datetime
 import time;
+import sqlite3
 
 
 def main():
@@ -82,6 +83,22 @@ class SchemesClass:
         
 #Project Owner Details        
 class BankDetailsClass:
+    def query(self):
+       
+        conn = sqlite3.connect('registrationdb.db')
+        
+        c = conn.cursor()
+        
+        c.execute("SELECT *, oid FROM registerdb")
+        records = c.fetchall()
+        print(records)
+         
+        conn.commit()
+        
+        conn.close()
+
+
+
     def __init__(self,master):
         self.master = master
         self.master.title("Bank Details")
@@ -95,25 +112,68 @@ class BankDetailsClass:
         self.LoginFrame1 = Frame(self.frame,width=1010,height=200,bd=20,relief='ridge')
         self.LoginFrame1.grid(row=1,column=0)
         
+        self.LoginFrame2 = Frame(self.frame,width=1010,height=200,bd=20,relief='ridge')
+        self.LoginFrame2.grid(row=2,column=0)
+        
         self.btnbdetails = Label(self.LoginFrame1,text="Saurav Joshi(1811019)",width=40,font=('arial',20,'bold'))
         self.btnbdetails.grid(row=0,column=0)
         self.btnbdetails = Label(self.LoginFrame1,text="Idrees Barnagarwala(1811004)",width=40,font=('arial',20,'bold'))
         self.btnbdetails.grid(row=1,column=0)
-        self.btnbdetails = Label(self.LoginFrame1,text="Ronak Gala(1811012)",width=40,font=('arial',20,'bold'))
+        self.btnbdetails = Label(self.LoginFrame1,text="Ronak Gala(1811011)",width=40,font=('arial',20,'bold'))
         self.btnbdetails.grid(row=2,column=0)
-
+        
+        self.btnquery = Button(self.LoginFrame2,text="Query Details",width=20,font=('arial',20,'bold'),command=self.query)
+        self.btnquery.grid(row=0,column=0)
+        
 
 #Registration Window   
 class Window2:
+    def submit(self):
+        
+        conn = sqlite3.connect('registrationdb.db')
+        
+        #create a cursor
+        c = conn.cursor()
+        
+        c.execute("INSERT INTO registerdb VALUES (:UserName,:Account_No,:Password,:address,:Money)",
+            {
+                'UserName': self.UserName.get(),
+                'Account_No': self.Account_No.get(),
+                'Password': self.Password.get(),
+                'address': self.address.get(),
+                'Money': self.Money.get(),
+            })
+         
+        conn.commit()
+        
+        conn.close()
+            
+        
+        
     def __init__(self,master):
         self.master = master
         self.master.title("Registration System")
         self.master.geometry('1350x750+0+0')
         self.frame = Frame(self.master)
         self.frame.pack()
+
+        
+        conn = sqlite3.connect('registrationdb.db')
+        
+        c = conn.cursor()
+        
+        
+        #create a table
+        '''c.execute("""CREATE TABLE registerdb(
+            UserName text,
+            Account_No text,
+            Password text,
+            address text,
+            Money text
+            )""")'''
         
         self.Account_No=StringVar()
-        self.Money=int()
+        self.Money=StringVar()
         self.UserName=StringVar()
         self.address=StringVar()
         self.Password=StringVar()
@@ -123,6 +183,9 @@ class Window2:
         
         self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
         self.LoginFrame1.grid(row=1,column=0)
+        
+        self.LoginFrame2 = Frame(self.frame,width=1000,height=100,bd=20,relief='ridge')
+        self.LoginFrame2.grid(row=2,column=0)
         
         self.lblUserName = Label(self.LoginFrame1,text="Enter UserName",font=('arial',30,'bold'),bd=22)
         self.lblUserName.grid(row=0,column=0)
@@ -148,6 +211,15 @@ class Window2:
         self.lblMoney.grid(row=4,column=0)
         self.txtMoney = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
         self.txtMoney.grid(row=4,column=1)
+        
+        self.btnsubmit = Button(self.LoginFrame2,text="Submit Details",width=20,font=('arial',20,'bold'),command=self.submit)
+        self.btnsubmit.grid(row=0,column=0)
+        
+        
+        
+        conn.commit()
+        
+        conn.close()
         
 
 #Login Window    
@@ -208,10 +280,28 @@ class Window1:
     #=======================================================================
     
     def Login_System(self):
+    
+    
+        conn = sqlite3.connect('registrationdb.db')
+        
+        c = conn.cursor()
+        
         user = (self.Account_No.get())
         pas = (self.Password.get())
         
-        if(user == str(1234) and (pas == str(1234))):
+        c.execute("SELECT *, oid FROM registerdb")
+        records = c.fetchall()
+        #print(records)
+        
+        ok = 0 
+        for record in records:
+            if(user==str(record[1]) and pas==str(record[2])):
+                ok=1
+                break
+        
+        
+        
+        if(ok==1):
             self.btnDeposit.config(state=NORMAL)
             self.btnWithdraw.config(state=NORMAL)
             self.btncheckbal.config(state=NORMAL)
@@ -222,7 +312,12 @@ class Window1:
             self.btncheckbal.config(state=DISABLED)
             self.Account_No.set("")
             self.Password.set("")
-            self.txtUsername.focus()
+            #self.txtUsername.focus()
+             
+        conn.commit()
+        
+        conn.close()
+         
     
     def Reset(self):
         self.btnDeposit.config(state=DISABLED)
@@ -262,8 +357,10 @@ class Deposit:
         self.frame = Frame(self.master)
         self.frame.pack()   
 
-        self.Money = int
-        self.Password=StringVar
+        self.Account_No = StringVar()
+        self.Money = StringVar()
+        self.Password=StringVar()
+        self.Password1=StringVar()
         
         self.LabelTitle = Label(self.frame,text="Deposit System",font=('arial',30,'bold'),bd=20)
         self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
@@ -271,23 +368,77 @@ class Deposit:
         self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
         self.LoginFrame1.grid(row=1,column=0)
         
+        self.LoginFrame2 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
+        self.LoginFrame2.grid(row=2,column=0)
+        
+        self.lblAccount_No = Label(self.LoginFrame1,text="Enter the Account No.",font=('arial',30,'bold'),bd=22)
+        self.lblAccount_No.grid(row=0,column=0)
+        self.txtAccount_No = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Account_No)
+        self.txtAccount_No.grid(row=0,column=1)
+        
         self.lblMoney = Label(self.LoginFrame1,text="Enter the amount to be Deposited",font=('arial',30,'bold'),bd=22)
-        self.lblMoney.grid(row=0,column=0)
+        self.lblMoney.grid(row=1,column=0)
         self.txtMoney = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
-        self.txtMoney.grid(row=0,column=1)
+        self.txtMoney.grid(row=1,column=1)
         
         self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
-        self.lblPassword.grid(row=1,column=0)
+        self.lblPassword.grid(row=2,column=0)
         self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
-        self.txtPassword.grid(row=1,column=1)
+        self.txtPassword.grid(row=2,column=1)
         
         self.lblPassword1 = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
-        self.lblPassword1.grid(row=2,column=0)
-        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
-        self.txtPassword1.grid(row=2,column=1)
+        self.lblPassword1.grid(row=3,column=0)
+        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password1)
+        self.txtPassword1.grid(row=3,column=1)
         
+        self.btndep = Button(self.LoginFrame2,text="Submit Details",width=20,font=('arial',20,'bold'),command=self.submit_dep)
+        self.btndep.grid(row=0,column=0)
         
+    def submit_dep(self):
+ 
+        conn = sqlite3.connect('registrationdb.db')
         
+        c = conn.cursor()
+        
+        acc = (self.Account_No.get())
+        money = (self.Money.get())
+        pas = (self.Password.get())
+        pas1 = (self.Password1.get())
+        
+        acc=str(acc)
+        print(type(acc))
+        
+        #print(acc," ",money," ",pas)
+        
+        c.execute("SELECT *, oid FROM registerdb")
+        records = c.fetchall()
+        #print(records)
+        
+        ok = 0 
+        for record in records:
+            if(acc==str(record[1]) and pas==str(record[2]) and pas1==str(record[2])):
+                value = record[4]
+                break
+        
+        #print(records)
+        
+        now = int(value)
+        add = int(money)
+        so_far = now + add 
+        so_far = str(so_far)
+
+        #print(now," ",add," ",so_far)
+        
+        c.execute(" Update registerdb set Money = (?) WHERE Account_No = (?) and Password = (?) " ,(so_far,acc,pas))
+        
+       
+        conn.commit()
+        
+        conn.close()
+        
+
+
+
 
 #Withdraw Window        
 class Withdraw:
@@ -298,8 +449,10 @@ class Withdraw:
         self.frame = Frame(self.master)
         self.frame.pack()    
         
-        self.Money = int
-        self.Password=StringVar
+        self.Account_No = StringVar()
+        self.Money = StringVar()
+        self.Password=StringVar()
+        self.Password1=StringVar()
         
         self.LabelTitle = Label(self.frame,text="Withdraw System",font=('arial',30,'bold'),bd=20)
         self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
@@ -307,22 +460,77 @@ class Withdraw:
         self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
         self.LoginFrame1.grid(row=1,column=0)
         
+        self.LoginFrame2 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
+        self.LoginFrame2.grid(row=2,column=0)
+        
+        self.lblAccount_No = Label(self.LoginFrame1,text="Enter the Account No",font=('arial',30,'bold'),bd=22)
+        self.lblAccount_No.grid(row=0,column=0)
+        self.txtAccount_No = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Account_No)
+        self.txtAccount_No.grid(row=0,column=1)
+        
         self.lblMoney = Label(self.LoginFrame1,text="Enter the amount to be Withdrawn",font=('arial',30,'bold'),bd=22)
-        self.lblMoney.grid(row=0,column=0)
+        self.lblMoney.grid(row=1,column=0)
         self.txtMoney = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Money)
-        self.txtMoney.grid(row=0,column=1)
+        self.txtMoney.grid(row=1,column=1)
         
         self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
-        self.lblPassword.grid(row=1,column=0)
+        self.lblPassword.grid(row=2,column=0)
         self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
-        self.txtPassword.grid(row=1,column=1)
+        self.txtPassword.grid(row=2,column=1)
         
         self.lblPassword1 = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
-        self.lblPassword1.grid(row=2,column=0)
-        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
-        self.txtPassword1.grid(row=2,column=1)
+        self.lblPassword1.grid(row=3,column=0)
+        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password1)
+        self.txtPassword1.grid(row=3,column=1)
+        
+        self.btnwith = Button(self.LoginFrame2,text="Submit Details",width=20,font=('arial',20,'bold'),command=self.submit_with)
+        self.btnwith.grid(row=0,column=0)
         
         
+    def submit_with(self):
+ 
+        conn = sqlite3.connect('registrationdb.db')
+        
+        c = conn.cursor()
+        
+        acc = (self.Account_No.get())
+        money = (self.Money.get())
+        pas = (self.Password.get())
+        pas1 = (self.Password1.get())
+        
+        #print(acc," ",money," ",pas)
+        
+        c.execute("SELECT *, oid FROM registerdb")
+        records = c.fetchall()
+        #print(records)
+        
+        ok = 0 
+        value = 0
+        for record in records:
+            if(acc==str(record[1]) and pas==str(record[2]) and pas1==str(record[2])):
+                value = record[4]
+                break
+        
+        #print(value)
+        
+        now = int(value)
+        add = int(money)
+        so_far = now - add 
+        so_far1 = str(so_far)
+        #print(now," ",add," ",so_far)
+        
+        if(so_far<0):
+            tkinter.messagebox.askyesno("Bank Management System","Not enough balance to withdraw. Check your balance!!")
+        else:
+            c.execute(" Update registerdb set Money = (?) WHERE Account_No = (?) and Password = (?) " ,(so_far1,acc,pas))
+            
+        conn.commit()
+        
+        conn.close()
+        
+
+
+    
         
         
         
@@ -334,7 +542,75 @@ class Check_Bal:
         self.master.title("Check Balance System")
         self.master.geometry('1350x750+0+0')
         self.frame = Frame(self.master)
-        self.frame.pack()    
+        self.frame.pack() 
+
+        self.Account_No = StringVar()
+        self.Password=StringVar()
+        self.Password1=StringVar()
+        
+        self.LabelTitle = Label(self.frame,text="Check Balance System",font=('arial',30,'bold'),bd=20)
+        self.LabelTitle.grid(row=0,column=0,columnspan=2,pady=20)
+        
+        self.LoginFrame1 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
+        self.LoginFrame1.grid(row=1,column=0)
+        
+        self.LoginFrame2 = Frame(self.frame,width=2010,height=300,bd=20,relief='ridge')
+        self.LoginFrame2.grid(row=2,column=0)
+        
+        self.LoginFrame3 = Frame(self.frame,width=1010,height=100,bd=20,relief='ridge')
+        self.LoginFrame3.grid(row=3,column=0)
+        
+        self.lblAccount_No = Label(self.LoginFrame1,text="Enter the Account No",font=('arial',30,'bold'),bd=22)
+        self.lblAccount_No.grid(row=0,column=0)
+        self.txtAccount_No = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,textvariable=self.Account_No)
+        self.txtAccount_No.grid(row=0,column=1)
+
+        self.lblPassword = Label(self.LoginFrame1,text="Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword.grid(row=1,column=0)
+        self.txtPassword = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password)
+        self.txtPassword.grid(row=1,column=1)
+        
+        self.lblPassword1 = Label(self.LoginFrame1,text="Re-Enter Password : ",font=('arial',30,'bold'),bd=22)
+        self.lblPassword1.grid(row=2,column=0)
+        self.txtPassword1 = Entry(self.LoginFrame1,font=('arial',30,'bold'),bd=22,show="*",textvariable=self.Password1)
+        self.txtPassword1.grid(row=2,column=1)
+        
+        self.btnmon = Button(self.LoginFrame2,text="Submit Details",width=20,font=('arial',20,'bold'),command=self.submit_check)
+        self.btnmon.grid(row=0,column=0)
+        
+        
+    def submit_check(self):
+ 
+        conn = sqlite3.connect('registrationdb.db')
+        
+        c = conn.cursor()
+        
+        acc = (self.Account_No.get())
+        pas = (self.Password.get())
+        pas1 = (self.Password1.get())
+        
+        c.execute("SELECT *, oid FROM registerdb")
+        records = c.fetchall()
+        
+        ok = 0 
+        value = 0
+        for record in records:
+            if(acc==str(record[1]) and pas==str(record[2]) and pas1==str(record[2])):
+                value = record[4]
+                break
+        
+        self.lbldisplay = Label(self.LoginFrame3,text="Your balance is ",font=('arial',30,'bold'),bd=22)
+        self.lbldisplay.grid(row=0,column=0)
+        
+        self.lbldisplaymoney = Label(self.LoginFrame3,text=value,font=('arial',30,'bold'),bd=22)
+        self.lbldisplaymoney.grid(row=0,column=1)
+       
+        conn.commit()
+        
+        conn.close()
+        
+        
+        
 
 if __name__ == '__main__':
     main()
